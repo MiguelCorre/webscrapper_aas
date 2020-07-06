@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: app-db-svc
+spec:
+    ports:
+        -   port: 5432
+            protocol: TCP
+    selector:
+        app: app-db-statefulset

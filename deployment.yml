@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: app-pod-deployment
+spec:
+    replicas: 3
+    selector:
+        matchLabels:
+            app: app-pod
+    template:
+        metadata:
+            labels:
+                app: app-pod
+        spec:
+            containers:
+              - name: app-container
+                image: node-docker_app:latest
+                imagePullPolicy: Never
+                ports:
+                    - containerPort: 3000
+            restartPolicy: Always
+                  

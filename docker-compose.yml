@@ -1,0 +1,28 @@
+version: '3'
+services:
+    app:
+      build: .
+      depends_on:
+        - db  
+      environment:
+        DATABASE_URL: postgres://me:password@db:5432/apii
+        PORT: 3001
+      ports:
+        - "3001:3001"
+      command: npm run dev
+      volumes:
+        - .:/app
+        - /app/node_modules
+
+    db:
+        image: postgres:latest
+        ports:
+          - "5432:5432"
+        environment:
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: me
+          POSTGRES_DB: apii   
+        volumes:
+          - ./pgdata:/var/lib/postgresql/data
+    
+    

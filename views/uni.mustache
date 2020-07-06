@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Universidades</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+	<h1 class="title mb-50">Universidades</h1>
+	{{#musketeers}}
+	{{#escolas}}
+	<button class="accordion">{{.}}</button>
+	<div class="panel">
+		{{#cursos}}
+		{{#.}}
+		<button class="accordion" id="accordion-universities">{{.}}</button>
+		<div class="panel">
+			{{#cadeiras}}
+			{{#.}}
+			<p>{{.}}</p>
+			{{/.}}
+			{{/cadeiras}}
+		</div>
+		{{/.}}
+		{{/cursos}}
+	</div>
+	{{/escolas}}
+	{{/musketeers}}
+</body>
+
+<script src="https://unpkg.com/mustache@latest"></script>
+<script type="text/javascript" src="script.js"></script>
+
+</html>
