@@ -4,15 +4,16 @@ const cursos = require('./db/Cursos')
 const cadeiras = require('./db/Cadeiras')
 const escolas = require('./db/Escolas')
 
+const sequelize = new Sequelize('postgres://me:password@db/apii')
 
-const sequelize = new Sequelize('postgres://me:password@db:5432/apii')
+
 const pool = new Pool({
   // user: 'me',
   // host: '0.0.0.0',
   // database: 'apii',
   // password: 'password',
   // port: 5432,
-  connectionString: process.env.DATABASE_URL
+  connectionString: 'postgres://me:password@db/apii'
 })
 
 
@@ -27,13 +28,19 @@ async function createTable() {
   escolas.associate(sequelize.models)
 
   cursos.hasMany(cadeiras, {
+    as: 'Cadeiras',
     foreignKey: "cursosid",
   });
+
+  cadeiras.belongsTo(cursos, {
+    
+    foreignKey: "cursosid"})
 
   escolas.hasMany(cursos, {
     foreignKey: "escolasid",
     timestamps: false
   });
+
 
   await sequelize.sync();
   // { force: true } QUANDO QUEREMOS REFAZER AS TABELAS METER ISTO DENTRO DO SYNC
@@ -41,11 +48,12 @@ async function createTable() {
 }
 
 const getUsers = (request, response) => {
+
   const tabela = request.params.users;
 
   pool.query('SELECT * FROM ' + tabela + ' ORDER BY id ASC', (error, results) => {
     if (error) {
-      response.status(200).json("Tabela ou ID inválidos")
+      response.status(200).send("Tabela ou ID inválidos")
     } else {
       response.status(200).json(results.rows)
     }

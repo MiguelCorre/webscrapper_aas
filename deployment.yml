@@ -14,9 +14,9 @@ spec:
         spec:
             containers:
               - name: app-container
-                image: node-docker_app:latest
+                image: scrapper:latest
                 imagePullPolicy: Never
                 ports:
-                    - containerPort: 3000
+                    - containerPort: 3001
             restartPolicy: Always
                   

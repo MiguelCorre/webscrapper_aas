@@ -3,6 +3,7 @@ kind: Service
 metadata:
     name: app-db-svc
 spec:
+    clusterIP: 10.108.41.240
     ports:
         -   port: 5432
             protocol: TCP

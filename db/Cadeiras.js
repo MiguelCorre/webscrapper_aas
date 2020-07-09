@@ -1,6 +1,6 @@
 const { Sequelize, Model, DataTypes, Deferrable } = require("sequelize");
 
-const sequelize = new Sequelize('postgres://me:password@db:5432/apii')
+const sequelize = new Sequelize('postgres://me:password@db/apii')
 
 class Cadeiras extends Model {
     static init(sequelize) {
@@ -16,6 +16,14 @@ class Cadeiras extends Model {
                     type: DataTypes.STRING,
                     allowNull: false
                 },
+                cursosid: {
+                    type: DataTypes.INTEGER,
+                    allowNull:false,
+                    references: {
+                        model: 'cursos', // 'persons' refers to table name
+                        key: 'id', // 'id' refers to column name in persons table
+                     }
+                }
             },
             
             {

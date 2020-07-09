@@ -9,10 +9,10 @@ const cursos = require('./db/Cursos');
 const cadeiras = require('./db/Cadeiras');
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('postgres://me:password@db:5432/apii')
+const sequelize = new Sequelize('postgres://me:password@db/apii')
 
 
-const port = 3001;
+const port = 3000;
 
 app.use(bodyParser.json())
 app.use(
@@ -27,18 +27,6 @@ app.engine('mustache', mustacheExpress());
 
 app.set('view engine', 'mustache');
 app.set('views', __dirname + '/views');
-
-
-// app.use(express.static(path.join(__dirname, '/views')));
-// app.get('/', function (req, res) {
-
-//   var cursosLista = []
-
-//   res.render('uni', {
-//     musketeers: cursosLista,
-
-//   });
-// });
 
 
 ; (async function teste() {
@@ -71,11 +59,11 @@ app.set('views', __dirname + '/views');
   } else {
 
     const arrayCursos = await cursos.findAll({
-      attributes: ['nome', 'escolasid']
+      attributes: ['id','nome', 'escolasid']
     });
 
     const arrayCadeiras = await cadeiras.findAll({
-      attributes: ['nome', 'cursosid']
+      attributes: ['id','nome', 'cursosid']
     });
 
     const arrayJSONCursos = JSON.stringify(arrayCursos, null, 2);
@@ -88,52 +76,37 @@ app.set('views', __dirname + '/views');
     app.get('/', function (req, res) {
 
       //ESTES CICLOS FOR MANDAM LISTAS DE CURSOS E/OU CADEIRAS PARA AS SUAS RESPETIVAS LISTAS. FICANDO PORTANTO UMA LISTA DE LISTAS PARA SEREM ACEDIDAS MAIS ABAIXO NO render.
-      const cursosLista = []
-      const cursosCadeiras = []
+      let curso
+      var cursosLista = []
+      var cursosCadeiras = []
       for (let m = 0; m < 3; m++) {
-        const arrayArray = arrayParseCursos.filter((arrayParseCursos) => arrayParseCursos.escolasid == m + 1).map((arrayParseCursos) => arrayParseCursos.nome)
-        cursosLista.push(arrayArray)
-        for (let b = 0; b < cursosLista[m].length; b++) {
-          const arrayArray2 = arrayParseCadeiras.filter((arrayParseCadeiras) => arrayParseCadeiras.cursosid == b + 1).map((arrayParseCadeiras) => arrayParseCadeiras.nome)
-          cursosCadeiras.push(arrayArray2)
-          // console.log(cursosLista)
+        // const arrayArrayEscolas = arrayParseCursos.filter((arrayParseCursos) => arrayParseCursos.escolasid == m + 1).map((arrayParseCursos) => arrayParseCursos.nome)
+        const arrayArrayCursos = arrayParseCursos.filter((arrayParseCursos) => arrayParseCursos.escolasid == m + 1).map((arrayParseCursos) => arrayParseCursos.nome)
+        cursosLista.push(arrayArrayCursos)
+        for (let b = 0; b < cursosLista.length; b++) {
+          const arrayArrayCadeiras = arrayParseCadeiras.filter((arrayParseCadeiras) => arrayParseCadeiras.cursosid == b + 1).map((arrayParseCadeiras) => arrayParseCadeiras.nome)
+          cursosCadeiras.push(arrayArrayCadeiras)
+          
         }
+        // cursosLista.push(cursosCadeiras)
       }
-      // console.log("lista: " + cursosLista[0][0] + " lista[0] " + cursosCadeiras.length + " lista[0][0] " + cursosCadeiras[0].length )
-
-
 
       // ESTAS DUAS FUNÇOES listaTeste e listaTeste2 SAO APENAS TESTES E NAO ESTAO A FAZER NADA DE MOMENTO.
-      function listaTeste(array1, array2) {
-        for (let i = 0; i < 3; i++) {
-          for (let j = 0; j < array1[i].length; j++) {
-            // console.log("ESTAMOS NESTE CURSO: " + array1[i][j])
-            // console.log("Nº DE DISCIPLINAS: " + array2[j].length)
-            return array1[i][j]
-            // for(let k = 0; k < array[i][j].length; k++) {
-            //   // console.log("teste")
-            // }
-            // return array[i][j]
+
+      function listaTeste2() {
+        for (let i = 0; i < 3; i++){
+          for (let k = 0; k < cursosLista[i].length; k++) {
+            console.log("Curso: " + cursosLista[i][k])
+            for (let j = 0; j < cursosCadeiras[k].length; j++) {
+              console.log('Cadeira: ' + cursosCadeiras[k][j])
+            }
           }
         }
       }
-
-      function listaTeste2(array1, array2) {
-        for (let i = 0; i < 3; i++) {
-          for (let j = 0; j < array1[i].length; j++) {
-            // console.log("ESTAMOS NESTE CURSO: " + array1[i][j])
-            // console.log("Nº DE DISCIPLINAS: " + array2[j].length)
-            return array2[j]
-            // for(let k = 0; k < array[i][j].length; k++) {
-            //   // console.log("teste")
-            // }
-            // return array[i][j]
-          }
-        }
-      }
-
+      
+      
       // listaTeste(cursosLista, cursosCadeiras)
-
+      // listaTeste2()
       //É ESTE render QUE ENVIA AS COISAS PARA O HTML SEGUINDO A LOGICA DO Mustache. NESTE MOMENTO DIVIDIMOS AS ESCOLAS E CURSOS BEM, MAS AS CADEIRAS NAO ESTAO A SER BEM DISTRIBUIDAS
       res.render('uni', {
         musketeers: [
@@ -141,8 +114,8 @@ app.set('views', __dirname + '/views');
             escolas: "Instituto Superior Técnico de Lisboa",
             cursos: cursosLista[0],
             cadeiras: cursosCadeiras,
+            
           },
-          // cadeiras: ["Teste1", "Teste2", "teste3", "Teste4"]
 
           {
             escolas: "Universidade Autónoma de Lisboa",

@@ -79,6 +79,7 @@ const escolasDB = require('./db/Escolas');
         const licenc = await page.$$('.col-lg-6 h1');
         // loop para escolher apenas Licenciaturas com e sem Mestrado Integrado, excluindo Mestrados e Doutoramentos.
         let p = 0;
+        let b = 0;
         for (let k = 0; k < 2; k++) {
             await page.goto('https://tecnico.ulisboa.pt/pt/ensino/cursos/');
             await page.waitForSelector('.col-lg-6');
@@ -127,6 +128,12 @@ const escolasDB = require('./db/Escolas');
                         const name = await cadeira.$eval('a', a => a.innerText);
                         console.log('name ', name);
                         const addCadeiras = await cadeirasDB.create({ nome: name, cursosid: p + 1 });
+                        const addCadeirasid =await cursosDB.update({ cadeirasid: b + 1 }, {
+                            where: {
+                              cursosid: p + 1
+                            }
+                          });
+                          b++
                     } catch {
                         console.log("Skipped.");
                     }
@@ -191,6 +198,12 @@ const escolasDB = require('./db/Escolas');
                         const name = await cadeira.$eval('a', a => a.innerText);
                         console.log('name ', name);
                         const addCadeiras = await cadeirasDB.create({ nome: name, cursosid: p + 1 });
+                        const addCadeirasid =await cursosDB.update({ cadeirasid: b + 1 }, {
+                            where: {
+                              cursosid: p + 1
+                            }
+                          });
+                          b++
                         
                         //await fs.appendFile('out.csv', `"${buttonName}","${name}"\n`);
                     } catch {
@@ -208,6 +221,12 @@ const escolasDB = require('./db/Escolas');
                         const names = await cadeiras.$eval('a', a => a.innerText);
                         console.log('name ', names);
                         const addCadeiras2 = await cadeirasDB.create({ nome: names, cursosid: p + 1 });
+                        const addCadeirasid =await cursosDB.update({ cadeirasid: b + 1 }, {
+                            where: {
+                              cursosid: p + 1
+                            }
+                          });
+                          b++
                         //await fs.appendFile('out.csv', `"${buttonName}","${name}"\n`);
                     } catch {
 
@@ -275,6 +294,12 @@ const escolasDB = require('./db/Escolas');
                     const name = await cadeira.$eval('a', a => a.innerText);
                     console.log('name ', name);
                     const addCadeiras = await cadeirasDB.create({ nome: name, cursosid: p + 1 });
+                    const addCadeirasid = await cursosDB.update({ cadeirasid: b + 1 }, {
+                        where: {
+                          cursosid: p + 1
+                        }
+                      });
+                      b++
 
                     //await fs.appendFile('out.csv', `"${buttonName}","${name}"\n`);
                 } catch {

@@ -5,8 +5,8 @@ metadata:
 spec:
     ports:
         -   name: http
-            port: 3000
-            targetPort: 3000
+            port: 3001
+            targetPort: 3001
             protocol: TCP
     selector:
         app: app-pod
