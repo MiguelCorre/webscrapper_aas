@@ -1,7 +1,10 @@
--IGNORAR OS FICHEIROS .yml, ESTAVAMOS A TRABALHAR NA PARTE DO KUBERNETES, AINDA ESTÁ INCOMPLETO
+Simple webscraper for a school project. It extracts information like courses and subjects from 3 schools into a database. It then displays the information into a simple web page.
 
--O FICHEIRO scrapeUal.js é o scrapper, em principio está tudo completo e bem feito.
-
--O FICHEIRO queries.js CONTÉM AS QUERIES A SER FEITA A BASE DE DADOS, E CRIA TAMBÉM AS TABELAS QUE ESTAO DEFINIDAS NA PASTA "db".
-
--O FICHEIRO server.js É ONDE ESTÁ DEFINIDO A LOGICA EM MUSTACHE PARA SER PASSADA PARA A PAGINA HTML.
+Technologies used:
+- Node.js
+- Express.js
+- Docker
+- Docker-Compose
+- PostGreSQL
+- Mustache.js
+- Sequelize
