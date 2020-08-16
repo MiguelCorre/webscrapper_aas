@@ -6,7 +6,7 @@ Simple webscraper for a school project. It extracts information like courses and
 - Express.js
 - Docker
 - Docker-Compose
-- PostGreSQL
+- PostgreSQL
 - Mustache.js
 - Sequelize
 
