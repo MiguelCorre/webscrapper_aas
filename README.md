@@ -3,7 +3,7 @@ Simple webscraper for a school project. It extracts information like courses and
 
 # Technologies
 - Node.js
-- Express.js
+- Express.js 
 - Docker
 - Docker-Compose
 - PostgreSQL
